@@ -1,0 +1,35 @@
+#include <iostream>
+#include <limits.h>  // For INT_MIN
+
+using namespace std;
+
+int findSecondOrThirdLargest(int arr[], int size, int position) {
+    if (size < position) return -1; // Not enough elements
+    
+    int first = INT_MIN, second = INT_MIN, third = INT_MIN;
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] > first) {
+            third = second;
+            second = first;
+            first = arr[i];
+        } else if (arr[i] > second && arr[i] != first) {
+            third = second;
+            second = arr[i];
+        } else if (arr[i] > third && arr[i] != second) {
+            third = arr[i];
+        }
+    }
+
+    return (position == 2) ? second : (position == 3) ? third : -1;
+}
+
+int main() {
+    int arr[] = {120, 45, 67, 89, 34, 23, 90, 11};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    cout << "Second largest: " << findSecondOrThirdLargest(arr, size, 2) << endl;
+    cout << "Third largest: " << findSecondOrThirdLargest(arr, size, 3) << endl;
+
+    return 0;
+}
